@@ -10,9 +10,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   const options = new DocumentBuilder()
-    .setTitle('Intercambio')
+    .setTitle('Truequemania')
     .setDescription(
-      'This is the documentation for Truquemania.',
+      'This is the documentation for Truequemania.',
     )
     .setVersion('1.0')
     .build();
