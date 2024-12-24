@@ -6,8 +6,8 @@ export const mailerConfig: MailerOptions = {
         port:587,
         secure:false,
         auth:{
-            user: "liketechnology95@gmail.com",
-            pass:"ifllxthtotfxaohc"
+            user: "truequemania.cl@gmail.com",
+            pass:"pfzymobwyggftulg"
         },
         tls:{
             rejectUnauthorized: false
