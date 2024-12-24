@@ -38,6 +38,7 @@ export class AuthController {
   @Patch('tokens-verifi')
   @UseGuards(AuthGuard)
   updateVerification(@Request() req, @Body() isVerified: boolean) {
+    console.log(req, "en el controller", isVerified);
     return this.authService.updateVerificacion(req.user.email, isVerified);
   }
 
