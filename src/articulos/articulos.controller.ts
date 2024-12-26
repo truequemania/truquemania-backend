@@ -1,16 +1,22 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { ArticulosService } from './articulos.service';
-import { CreateArticuloDto } from './dto/create-articulo.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { Articulo } from './entities/articulo.entity';
+import { CreateArticuloDto } from './dto/create-articulo.dto';
+import { UpdateArticuloDto } from './dto/update-articulo.dto';
 
 @ApiTags('articulos')
 @Controller('articulos')
 export class ArticulosController {
   constructor(private readonly articulosService: ArticulosService) { }
+
   @Post()
-  async createCampaña(@Body() newCampaña: CreateArticuloDto) {
-    return await this.articulosService.createArticulo(newCampaña);
+  @UseInterceptors(FileInterceptor('imagen'))
+  async createCampaña(
+    @UploadedFile() imagen: Express.Multer.File,
+    @Body() newCampaña: CreateArticuloDto) {
+    return await this.articulosService.createArticulo({ ...newCampaña, imagen });
   }
 
   @Get()
@@ -24,6 +30,15 @@ export class ArticulosController {
     @Body() updateCampaña: CreateArticuloDto,
   ) {
     return this.articulosService.updateArticulo(id, updateCampaña);
+  }
+
+  @Patch(':id/imagen')
+  @UseInterceptors(FileInterceptor('imagen'))
+  async updateImagen(
+    @Param('id') id: string,
+    @UploadedFile() imagen: Express.Multer.File,
+  ) {
+    return this.articulosService.updateImagen(id, imagen);
   }
 
   @Delete(':id')

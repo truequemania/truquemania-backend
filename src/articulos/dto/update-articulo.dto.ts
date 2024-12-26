@@ -2,17 +2,15 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class UpdateArticuloDto {
     @ApiProperty()
-    nombre?: string;
+    nombre: string;
     @ApiProperty()
-    descripcion?: string;
+    descripcion: string;
     @ApiProperty()
-    categoria?: string;
+    categoria: string;
     @ApiProperty()
-    email?: string;
+    email: string;
     @ApiProperty()
     name: string;
     @ApiProperty()
-    estado?: string;
-    @ApiProperty()
-    imagen?: string;
+    estado: string;
 }

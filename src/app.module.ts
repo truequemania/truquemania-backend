@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ArticulosModule } from './articulos/articulos.module';
+import { CloudinaryModule } from './cloudinay/cloudinay.module';
 import 'dotenv/config';
 
 @Module({
@@ -24,7 +25,8 @@ import 'dotenv/config';
     }),
     AuthModule,
     UsersModule,
-    ArticulosModule
+    ArticulosModule,
+    CloudinaryModule
   ],
 })
 export class AppModule { }
