@@ -20,4 +20,6 @@ export class Articulo {
     estado: string;
     @Column()
     imagen: string;
+    @Column({ default: false }) 
+    favorito: boolean;
 }

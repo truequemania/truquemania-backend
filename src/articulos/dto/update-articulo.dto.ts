@@ -13,4 +13,6 @@ export class UpdateArticuloDto {
     name: string;
     @ApiProperty()
     estado: string;
+    @ApiProperty()
+    favorito: boolean;
 }

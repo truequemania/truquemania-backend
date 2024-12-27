@@ -19,6 +19,7 @@ CREATE TABLE articulosinter (
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     estado VARCHAR(255) NOT NULL, 
     imagen VARCHAR(500), 
+    favorito BOOLEAN NOT NULL DEFAULT false,
     PRIMARY KEY (id),
     UNIQUE KEY nombre (nombre)
 );

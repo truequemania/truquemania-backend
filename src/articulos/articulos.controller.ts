@@ -41,6 +41,12 @@ export class ArticulosController {
     return this.articulosService.updateImagen(id, imagen);
   }
 
+  @Patch(':id')
+  async updateFavorito(@Param('id') id: number, @Body() updateData: { favorito: boolean; email: string }) {
+    const { favorito, email } = updateData;
+    return this.articulosService.updateFavorito(id, favorito, email);
+  }
+
   @Delete(':id')
   async deleteCampana(@Param('id') id: string) {
     return this.articulosService.deleteArticulo(id);

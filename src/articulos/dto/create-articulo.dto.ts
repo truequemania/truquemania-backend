@@ -15,4 +15,6 @@ export class CreateArticuloDto {
     estado: string;
     @ApiProperty()
     imagen: Express.Multer.File;
+    @ApiProperty()
+    favorito: boolean;
 }

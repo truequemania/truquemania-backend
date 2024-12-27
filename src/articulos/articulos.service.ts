@@ -116,4 +116,27 @@ export class ArticulosService {
     return match ? match[1] : null;
   }
 
+  async findArticulosById(id: number) {
+    return await this.articuloRepository.findOne({ where: { id } });
+  }
+
+  async updateFavorito(id: number, favorito: boolean, email: string) {
+    const art = await this.findArticulosById(id);
+    if (!art) {
+      throw new NotFoundException(`Propuesta con ID ${id} no encontrada`);
+    }
+
+    if (art.email !== email) {
+      throw new NotFoundException(`El email proporcionado no coincide con el email del propietario de la propuesta`);
+    }
+
+    art.favorito = favorito;
+
+    await this.articuloRepository.save(art);
+
+    return {
+      message: `La propuesta con ID ${id} ha sido actualizada exitosamente`,
+    };
+  }
+
 }
