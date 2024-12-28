@@ -7,8 +7,9 @@ import { Articulo } from './entities/articulo.entity';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Articulo]),
-  CloudinaryModule],
+    CloudinaryModule],
   controllers: [ArticulosController],
   providers: [ArticulosService],
+  exports: [ArticulosService],
 })
-export class ArticulosModule {}
+export class ArticulosModule { }

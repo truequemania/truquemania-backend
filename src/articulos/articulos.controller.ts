@@ -24,6 +24,11 @@ export class ArticulosController {
     return this.articulosService.findAll();
   }
 
+  @Get(':username')
+  async findByUsername(@Param('username') username: string) {
+    return this.articulosService.findArticulosByUsername(username);
+  }
+
   @Patch(':id')
   async updateCampana(
     @Param('id') id: string,

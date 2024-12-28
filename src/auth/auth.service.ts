@@ -54,7 +54,6 @@ export class AuthService {
   }
 
   async updateVerificacion(email: string, isVerified: boolean) {
-    console.log(email, isVerified, "En el servicio");
     const user = await this.usersService.findOneByEmail(email);
 
     if (!user) {
@@ -162,12 +161,12 @@ export class AuthService {
     let filePath: string;
 
     if (correo == "register") {
-      url = `https://truequemania1.netlify.app/login?token=${token}`;
+      url = `https://truequemania.netlify.app/login?token=${token}`;
       filePath = path.resolve(process.cwd(), 'src/auth/html/plantillaReg.html');
     }
 
     if (correo == "verificacion") {
-      url = `https://truequemania1.netlify.app/password?token=${token}`;
+      url = `https://truequemania.netlify.app/password?token=${token}`;
       filePath = path.resolve(process.cwd(), 'src/auth/html/plantilla.html');
     }
 

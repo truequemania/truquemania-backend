@@ -123,11 +123,11 @@ export class ArticulosService {
   async updateFavorito(id: number, favorito: boolean, email: string) {
     const art = await this.findArticulosById(id);
     if (!art) {
-      throw new NotFoundException(`Propuesta con ID ${id} no encontrada`);
+      throw new NotFoundException(`El artículo con ID ${id} no encontrada`);
     }
 
     if (art.email !== email) {
-      throw new NotFoundException(`El email proporcionado no coincide con el email del propietario de la propuesta`);
+      throw new NotFoundException(`El email proporcionado no coincide con el email del propietario del articulo`);
     }
 
     art.favorito = favorito;
@@ -135,8 +135,14 @@ export class ArticulosService {
     await this.articuloRepository.save(art);
 
     return {
-      message: `La propuesta con ID ${id} ha sido actualizada exitosamente`,
+      message: `El artículo con ID ${id} ha sido actualizada exitosamente`,
     };
   }
-
+  
+  async findArticulosByUsername(username: string): Promise<Articulo[]> {
+    return await this.articuloRepository.find({
+      where: { name: username },
+    });
+  }
+  
 }
