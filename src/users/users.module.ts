@@ -6,7 +6,7 @@ import { UsersService } from "./users.service";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { mailerConfig } from "./mailer.config";
 import { JwtModule } from "@nestjs/jwt";
-import { jwtConstants } from "src/auth/constants/jwt.constants";
+import { jwtConstants } from "./constants/jwt.constants";
 
 @Module({
   imports: [
