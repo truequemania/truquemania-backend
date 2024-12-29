@@ -4,7 +4,8 @@ CREATE TABLE userinter (
     name VARCHAR(500) NOT NULL,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
-    isVerified BOOLEAN,  
+    isVerified BOOLEAN,
+    role ENUM('admin', 'client') NOT NULL DEFAULT 'client',
     PRIMARY KEY (id),
     UNIQUE KEY email (email)
 );

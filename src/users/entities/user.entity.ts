@@ -12,4 +12,10 @@ export class userinter {
   password: string;
   @Column()
   isVerified: boolean;
+  @Column({
+    type: "enum",
+    enum: ["admin", "client"],
+    default: "client",
+  })
+  role: string;
 }

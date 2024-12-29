@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { ArticulosModule } from './articulos/articulos.module';
 import { CloudinaryModule } from './cloudinay/cloudinay.module';
@@ -24,7 +23,6 @@ import 'dotenv/config';
       synchronize: false,
       ssl: { rejectUnauthorized: false },
     }),
-    AuthModule,
     UsersModule,
     ArticulosModule,
     CloudinaryModule,
