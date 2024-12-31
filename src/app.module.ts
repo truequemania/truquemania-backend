@@ -5,7 +5,6 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { ArticulosModule } from './articulos/articulos.module';
 import { CloudinaryModule } from './cloudinay/cloudinay.module';
-import { PerfilesModule } from './perfiles/perfiles.module';
 import { CategoryModule } from './category/category.module';
 import 'dotenv/config';
 
@@ -27,7 +26,6 @@ import 'dotenv/config';
     UsersModule,
     ArticulosModule,
     CloudinaryModule,
-    PerfilesModule,
     CategoryModule
   ],
 })
