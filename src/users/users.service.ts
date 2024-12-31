@@ -138,14 +138,14 @@ export class UsersService {
     };
   }
 
-  async token(email: string) {
+  async token(email: string, isVerified: boolean) {
     const user = await this.usersRepository.findOneBy({ email });
 
     if (!user) {
       throw new UnauthorizedException('Usuario no existe');
     }
-
-    await this.usersRepository.update({ email }, { isVerified: true });
+    isVerified = true;
+    await this.usersRepository.update({ email }, { isVerified: isVerified });
 
     const payload = { email: user.email, name: user.name };
 

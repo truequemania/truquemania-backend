@@ -24,3 +24,11 @@ CREATE TABLE articulosinter (
     PRIMARY KEY (id),
     UNIQUE KEY nombre (nombre)
 );
+
+CREATE TABLE categoriainter (
+    id INT NOT NULL AUTO_INCREMENT,
+    nombre VARCHAR(255) NOT NULL, 
+    descripcion TEXT NOT NULL, 
+    PRIMARY KEY (id),
+    UNIQUE KEY nombre (nombre)
+);

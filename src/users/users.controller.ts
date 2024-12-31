@@ -37,8 +37,8 @@ export class UsersController {
 
     @Patch('tokens')
     @UseGuards(AuthGuard)
-    token(@Request() req) {
-        return this.userService.token(req.user.email);
+    token(@Request() req, @Body() isVerified: boolean) {
+        return this.userService.token(req.user.email, isVerified);
     }
 
 }

@@ -4,7 +4,6 @@ import { ApiTags } from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { Articulo } from './entities/articulo.entity';
 import { CreateArticuloDto } from './dto/create-articulo.dto';
-import { UpdateArticuloDto } from './dto/update-articulo.dto';
 
 @ApiTags('articulos')
 @Controller('articulos')
