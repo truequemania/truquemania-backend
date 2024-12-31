@@ -84,7 +84,7 @@ export class UsersService {
       token: token,
       name: user.name,
       email: user.email,
-      role: user.role
+      role: user.role,
     };
   }
 
@@ -138,14 +138,14 @@ export class UsersService {
     };
   }
 
-  async token(email: string, isVerified: boolean) {
+  async token(email: string) {
     const user = await this.usersRepository.findOneBy({ email });
 
     if (!user) {
       throw new UnauthorizedException('Usuario no existe');
     }
 
-    await this.usersRepository.update({ email }, { isVerified: isVerified });
+    await this.usersRepository.update({ email }, { isVerified: true });
 
     const payload = { email: user.email, name: user.name };
 
