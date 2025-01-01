@@ -21,8 +21,21 @@ export class ArticulosService {
     private userService: UsersService,
   ) {}
 
-  async findAll(): Promise<Articulo[]> {
-    return this.articuloRepository.find();
+  async findAll() {
+    return this.articuloRepository.find({ relations: ['categoria', 'user'] });
+  }
+
+  async findOne(user_id: number) {
+    const articulo = await this.articuloRepository.find({
+      where: { user: { id: user_id } },
+      relations: ['categoria', 'user'], 
+    });
+
+    if (!articulo) {
+      throw new NotFoundException(`Artículo no encontrado`);
+    }
+
+    return articulo;
   }
 
   async createArticulo(article: CreateArticuloDto) {
@@ -47,7 +60,7 @@ export class ArticulosService {
 
     const imageUrl = uploadResult.secure_url;
 
-    const user = await this.userService.findByEmail(article.email);
+    const user = await this.userService.findById(article.user_id);
     if (!user) {
       throw new HttpException('Usuario no encontrado.', HttpStatus.NOT_FOUND);
     }
@@ -135,13 +148,5 @@ export class ArticulosService {
       message: 'Imagen actualizada con éxito',
       articulo: updatedArticulo,
     };
-  }
-
-  async findArticulosByUserEmail(email: string): Promise<Articulo[]> {
-    return await this.articuloRepository
-      .createQueryBuilder('articulo')
-      .innerJoinAndSelect('articulo.user', 'user')
-      .where('user.email = :email', { email })
-      .getMany();
   }
 }

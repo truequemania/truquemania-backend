@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { ArticulosModule } from './articulos/articulos.module';
 import { CloudinaryModule } from './cloudinay/cloudinay.module';
 import { CategoryModule } from './category/category.module';
+import { FavoritoModule } from './favorito/favorito.module';
 import 'dotenv/config';
 
 @Module({
@@ -26,7 +27,8 @@ import 'dotenv/config';
     UsersModule,
     ArticulosModule,
     CloudinaryModule,
-    CategoryModule
+    CategoryModule,
+    FavoritoModule
   ],
 })
 export class AppModule { }

@@ -3,24 +3,24 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('userinter')
 export class User {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ unique: true })
-    email: string;
+  @Column({ unique: true })
+  email: string;
 
-    @Column()
-    name: string;
+  @Column()
+  name: string;
 
-    @Column()
-    password: string;
+  @Column({ select: false })
+  password: string;
 
-    @Column({ default: false })
-    isVerified: boolean;
+  @Column({ default: false })
+  isVerified: boolean;
 
-    @Column({ type: 'enum', enum: ['admin', 'client'], default: 'client' })
-    role: string;
+  @Column({ type: 'enum', enum: ['admin', 'client'], default: 'client' })
+  role: string;
 
-    @OneToMany(() => Articulo, (articulo) => articulo.user)
-    articulos: Articulo[];
+  @OneToMany(() => Articulo, (articulo) => articulo.user)
+  articulos: Articulo[];
 }

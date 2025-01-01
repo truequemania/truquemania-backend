@@ -1,18 +1,23 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateArticuloDto {
-    @ApiProperty({ description: 'Nombre único del artículo a actualizar' })
-    nombre: string;
+  @ApiProperty({ description: 'Nombre único del artículo a actualizar', required: false })
+  nombre?: string;
 
-    @ApiProperty({ description: 'Nueva descripción del artículo', required: false })
-    descripcion?: string;
+  @ApiProperty({ description: 'Nueva descripción del artículo', required: false })
+  descripcion?: string;
 
-    @ApiProperty({ description: 'Nueva categoría del artículo', required: false })
-    categoria?: string;
+  @ApiProperty({ description: 'ID de la categoría del artículo', required: false })
+  categoria_id?: number;
 
-    @ApiProperty({ description: 'Correo electrónico del usuario propietario del artículo', required: true })
-    email: string; 
+  @ApiProperty({ description: 'Estado del artículo (nuevo, usado, etc.)', required: false })
+  estado?: string;
 
-    @ApiProperty({ description: 'Nuevo estado del artículo (nuevo, usado, etc.)', required: false })
-    estado?: string;
+  @ApiProperty({
+    description: 'Nueva imagen del artículo',
+    type: 'string',
+    format: 'binary',
+    required: false,
+  })
+  imagen?: Express.Multer.File;
 }

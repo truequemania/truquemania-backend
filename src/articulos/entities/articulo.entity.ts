@@ -1,12 +1,6 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  ManyToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
 
 @Entity('articulosinter')
 export class Articulo {
@@ -19,11 +13,12 @@ export class Articulo {
   @Column()
   descripcion: string;
 
-  @Column()
-  categoria: string;
+  @ManyToOne(() => Category, (categoria) => categoria.articulos, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'categoria_id' })
+  categoria: Category;
 
   @ManyToOne(() => User, (user) => user.articulos, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'userEmail' }) 
+  @JoinColumn({ name: 'user_id' })
   user: User;
 
   @CreateDateColumn()
@@ -32,6 +27,6 @@ export class Articulo {
   @Column()
   estado: string;
 
-  @Column()
+  @Column({ nullable: true })
   imagen: string;
 }

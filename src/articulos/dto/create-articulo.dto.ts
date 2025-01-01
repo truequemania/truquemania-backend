@@ -7,13 +7,11 @@ export class CreateArticuloDto {
   @ApiProperty({ description: 'Descripción del artículo' })
   descripcion: string;
 
-  @ApiProperty({ description: 'Categoría del artículo' })
-  categoria: string;
+  @ApiProperty({ description: 'ID de la categoría del artículo' })
+  categoria_id: number;
 
-  @ApiProperty({
-    description: 'Correo electrónico del usuario propietario del artículo',
-  })
-  email: string; 
+  @ApiProperty({ description: 'ID del usuario propietario del artículo' })
+  user_id: number;
 
   @ApiProperty({ description: 'Estado del artículo (nuevo, usado, etc.)' })
   estado: string;

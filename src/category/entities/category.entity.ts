@@ -1,11 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Articulo } from 'src/articulos/entities/articulo.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('categoriainter')
 export class Category {
   @PrimaryGeneratedColumn()
   id: number;
-  @Column()
+
+  @Column({ unique: true })
   nombre: string;
-  @Column()
+
+  @Column('text')
   descripcion: string;
+
+  @OneToMany(() => Articulo, (articulo) => articulo.categoria)
+  articulos: Articulo[];
 }
+
+

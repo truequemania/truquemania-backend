@@ -45,7 +45,7 @@ export class UsersService {
       email,
       password: hashedPassword,
       isVerified,
-      role
+      role,
     });
 
     await this.usersRepository.save(newUser);
@@ -86,6 +86,7 @@ export class UsersService {
       name: user.name,
       email: user.email,
       role: user.role,
+      id: user.id,
     };
   }
 
@@ -132,9 +133,11 @@ export class UsersService {
     const token = await this.jwtService.signAsync(payload);
 
     return {
-      tokens: token,
+      token: token,
       name: user.name,
       email: user.email,
+      role: user.role,
+      id: user.id,
       message: 'Contraseña actualizada correctamente',
     };
   }
@@ -156,6 +159,8 @@ export class UsersService {
       token: token,
       name: user.name,
       email: user.email,
+      role: user.role,
+      id: user.id,
     };
   }
 
@@ -192,10 +197,9 @@ export class UsersService {
     });
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findById(id: number): Promise<User> {
     return await this.usersRepository.findOne({
-      where: { email },
+      where: { id },
     });
   }
-  
 }

@@ -25,25 +25,25 @@ export class ArticulosController {
     return this.articulosService.findAll();
   }
 
-  @Get(':email')
-  async findByUsername(@Param('email') email: string) {
-    return this.articulosService.findArticulosByUserEmail(email);
+  @Get(':id')
+  async findOne(@Param('id') id: number) {
+    return this.articulosService.findOne(id);
   }
 
   @Post()
   @UseInterceptors(FileInterceptor('imagen'))
   async create(
     @UploadedFile() imagen: Express.Multer.File,
-    @Body() newCampaña: CreateArticuloDto,
+    @Body() newArticle: CreateArticuloDto,
   ) {
     return await this.articulosService.createArticulo({
-      ...newCampaña,
+      ...newArticle,
       imagen,
     });
   }
 
   @Patch(':id')
-  async updateCampana(
+  async update(
     @Param('id') id: string,
     @Body() updateCampaña: CreateArticuloDto,
   ) {
@@ -51,7 +51,7 @@ export class ArticulosController {
   }
 
   @Delete(':id')
-  async deleteCampana(@Param('id') id: string) {
+  async delete(@Param('id') id: string) {
     return this.articulosService.deleteArticulo(id);
   }
 
