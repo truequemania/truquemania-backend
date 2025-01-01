@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Query } from '@nestjs/common';
 import { FavoritoService } from './favorito.service';
 import { CreateFavoritoDto } from './dto/create-favorito.dto';
-import { UpdateFavoritoDto } from './dto/update-favorito.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { Favorito } from './entities/favorito.entity';
 
+@ApiTags('favorito')
 @Controller('favorito')
 export class FavoritoController {
   constructor(private readonly favoritoService: FavoritoService) {}
 
   @Post()
-  create(@Body() createFavoritoDto: CreateFavoritoDto) {
+  async create(@Body() createFavoritoDto: CreateFavoritoDto) {
     return this.favoritoService.create(createFavoritoDto);
   }
 
   @Get()
-  findAll() {
+  async findAll(): Promise<Favorito[]> {
     return this.favoritoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.favoritoService.findOne(+id);
+  async findOne(@Param('id') id: number): Promise<Favorito[]> {
+    return this.favoritoService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFavoritoDto: UpdateFavoritoDto) {
-    return this.favoritoService.update(+id, updateFavoritoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.favoritoService.remove(+id);
+  @Delete()
+  async remove(
+    @Query('articulo_id') articulo_id: number,
+    @Query('user_id') user_id: number,
+  ): Promise<{ message: string }> {
+    return this.favoritoService.remove(articulo_id, user_id);
   }
 }

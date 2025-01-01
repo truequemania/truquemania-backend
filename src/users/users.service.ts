@@ -80,7 +80,6 @@ export class UsersService {
     const payload = { email: user.email, name: user.name };
 
     const token = await this.jwtService.signAsync(payload);
-
     return {
       token: token,
       name: user.name,

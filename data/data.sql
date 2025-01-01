@@ -37,7 +37,6 @@ CREATE TABLE favoritosinter (
     articulo_id INT NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
-    UNIQUE KEY user_articulo (user_id, articulo_id),
     FOREIGN KEY (user_id) REFERENCES userinter(id) ON DELETE CASCADE,
     FOREIGN KEY (articulo_id) REFERENCES articulosinter(id) ON DELETE CASCADE
 );

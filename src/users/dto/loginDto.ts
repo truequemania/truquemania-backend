@@ -1,11 +1,11 @@
-import { Transform } from "class-transformer";
-import { IsEmail, IsString, MinLength } from "class-validator";
+import { IsString, IsEmail, IsNotEmpty } from 'class-validator';
 
 export class LoginDto {
   @IsEmail()
+  @IsNotEmpty()
   email: string;
+
   @IsString()
-  @MinLength(6)
-  @Transform(({ value }) => value.trim())
+  @IsNotEmpty()
   password: string;
 }

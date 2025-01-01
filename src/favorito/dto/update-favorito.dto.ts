@@ -1,4 +1,4 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateFavoritoDto } from './create-favorito.dto';
-
-export class UpdateFavoritoDto extends PartialType(CreateFavoritoDto) {}
+export class UpdateFavoritoDto {
+  user_id: number;
+  articulo_id: number;
+}

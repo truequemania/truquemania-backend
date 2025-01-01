@@ -1,5 +1,10 @@
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+} from 'typeorm';
 import { Articulo } from 'src/articulos/entities/articulo.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('categoriainter')
 export class Category {
@@ -9,11 +14,9 @@ export class Category {
   @Column({ unique: true })
   nombre: string;
 
-  @Column('text')
+  @Column({ type: 'text' })
   descripcion: string;
 
   @OneToMany(() => Articulo, (articulo) => articulo.categoria)
   articulos: Articulo[];
 }
-
-
