@@ -1,10 +1,16 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CloudinaryService } from 'src/cloudinay/cloudinay.service';
 import { CreateArticuloDto } from './dto/create-articulo.dto';
 import { Articulo } from './entities/articulo.entity';
 import { UpdateArticuloDto } from './dto/update-articulo.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class ArticulosService {
@@ -12,30 +18,44 @@ export class ArticulosService {
     @InjectRepository(Articulo)
     private readonly articuloRepository: Repository<Articulo>,
     private cloudinaryService: CloudinaryService,
-  ) { }
+    private userService: UsersService,
+  ) {}
+
+  async findAll(): Promise<Articulo[]> {
+    return this.articuloRepository.find();
+  }
 
   async createArticulo(article: CreateArticuloDto) {
     const articleFound = await this.articuloRepository.findOne({
-      where: {
-        nombre: article.nombre,
-      },
+      where: { nombre: article.nombre },
     });
 
     if (articleFound) {
       throw new HttpException('El artículo ya existe.', HttpStatus.CONFLICT);
     }
 
-    const uploadResult = await this.cloudinaryService.uploadFile(article.imagen);
+    const uploadResult = await this.cloudinaryService.uploadFile(
+      article.imagen,
+    );
 
     if (!uploadResult) {
-      throw new HttpException('Error al subir la imagen.', HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(
+        'Error al subir la imagen.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
     }
 
     const imageUrl = uploadResult.secure_url;
 
+    const user = await this.userService.findByEmail(article.email);
+    if (!user) {
+      throw new HttpException('Usuario no encontrado.', HttpStatus.NOT_FOUND);
+    }
+
     const newArticle = this.articuloRepository.create({
       ...article,
       imagen: imageUrl,
+      user,
     });
 
     const savedArticle = await this.articuloRepository.save(newArticle);
@@ -46,11 +66,10 @@ export class ArticulosService {
     };
   }
 
-  async findAll(): Promise<Articulo[]> {
-    return this.articuloRepository.find();
-  }
-
-  async updateArticulo(id: any, updateArticulo: UpdateArticuloDto): Promise<{ message: string; articulo: Articulo }> {
+  async updateArticulo(
+    id: any,
+    updateArticulo: UpdateArticuloDto,
+  ): Promise<{ message: string; articulo: Articulo }> {
     const articulo = await this.articuloRepository.findOne({ where: { id } });
     if (!articulo) {
       throw new NotFoundException(`Artículo con id ${id} no encontrada`);
@@ -60,33 +79,6 @@ export class ArticulosService {
     await this.articuloRepository.save(updatedArticulo);
     return {
       message: 'Artículo actualizada con éxito',
-      articulo: updatedArticulo,
-    };
-  }
-
-  async updateImagen(id: any, imagen: Express.Multer.File): Promise<{ message: string; articulo: Articulo }> {
-
-    const articulo = await this.articuloRepository.findOne({ where: { id } });
-    if (!articulo) {
-      throw new NotFoundException(`Artículo con id ${id} no encontrado`);
-    }
-
-    const currentImageUrl = articulo.imagen;
-    if (currentImageUrl) {
-      const publicId = this.extractPublicId(currentImageUrl);
-      if (publicId) {
-        await this.cloudinaryService.deleteFile(publicId);
-      }
-    }
-
-    const uploadResult = await this.cloudinaryService.uploadFile(imagen);
-
-    articulo.imagen = uploadResult.secure_url;
-
-    const updatedArticulo = await this.articuloRepository.save(articulo);
-
-    return {
-      message: 'Imagen actualizada con éxito',
       articulo: updatedArticulo,
     };
   }
@@ -116,33 +108,40 @@ export class ArticulosService {
     return match ? match[1] : null;
   }
 
-  async findArticulosById(id: number) {
-    return await this.articuloRepository.findOne({ where: { id } });
-  }
-
-  async updateFavorito(id: number, favorito: boolean, email: string) {
-    const art = await this.findArticulosById(id);
-    if (!art) {
-      throw new NotFoundException(`El artículo con ID ${id} no encontrada`);
+  async updateImagen(
+    id: any,
+    imagen: Express.Multer.File,
+  ): Promise<{ message: string; articulo: Articulo }> {
+    const articulo = await this.articuloRepository.findOne({ where: { id } });
+    if (!articulo) {
+      throw new NotFoundException(`Artículo con id ${id} no encontrado`);
     }
 
-    if (art.email !== email) {
-      throw new NotFoundException(`El email proporcionado no coincide con el email del propietario del articulo`);
+    const currentImageUrl = articulo.imagen;
+    if (currentImageUrl) {
+      const publicId = this.extractPublicId(currentImageUrl);
+      if (publicId) {
+        await this.cloudinaryService.deleteFile(publicId);
+      }
     }
 
-    art.favorito = favorito;
+    const uploadResult = await this.cloudinaryService.uploadFile(imagen);
 
-    await this.articuloRepository.save(art);
+    articulo.imagen = uploadResult.secure_url;
+
+    const updatedArticulo = await this.articuloRepository.save(articulo);
 
     return {
-      message: `El artículo con ID ${id} ha sido actualizada exitosamente`,
+      message: 'Imagen actualizada con éxito',
+      articulo: updatedArticulo,
     };
   }
-  
-  async findArticulosByUsername(username: string): Promise<Articulo[]> {
-    return await this.articuloRepository.find({
-      where: { name: username },
-    });
+
+  async findArticulosByUserEmail(email: string): Promise<Articulo[]> {
+    return await this.articuloRepository
+      .createQueryBuilder('articulo')
+      .innerJoinAndSelect('articulo.user', 'user')
+      .where('user.email = :email', { email })
+      .getMany();
   }
-  
 }

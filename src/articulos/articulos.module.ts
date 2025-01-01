@@ -4,10 +4,11 @@ import { ArticulosController } from './articulos.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CloudinaryModule } from 'src/cloudinay/cloudinay.module';
 import { Articulo } from './entities/articulo.entity';
+import { UsersModule } from 'src/users/users.module';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Articulo]),
-    CloudinaryModule],
+    CloudinaryModule, UsersModule],
   controllers: [ArticulosController],
   providers: [ArticulosService],
   exports: [ArticulosService],

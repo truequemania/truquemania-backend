@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { RegisterDto } from './dto/registerDto';
-import { userinter } from './entities/user.entity';
+
 import * as bcryptjs from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
 import * as path from 'path';
@@ -15,12 +15,13 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { LoginDto } from './dto/loginDto';
 import { EmailDto } from './dto/emailDto';
 import { PasswordDto } from './dto/passwordDto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(userinter)
-    private readonly usersRepository: Repository<userinter>,
+    @InjectRepository(User)
+    private readonly usersRepository: Repository<User>,
     private readonly jwtService: JwtService,
     private readonly mailerService: MailerService,
   ) {}
@@ -44,7 +45,7 @@ export class UsersService {
       email,
       password: hashedPassword,
       isVerified,
-      role,
+      role
     });
 
     await this.usersRepository.save(newUser);
@@ -190,4 +191,11 @@ export class UsersService {
       html: personalizedHtml,
     });
   }
+
+  async findByEmail(email: string): Promise<User> {
+    return await this.usersRepository.findOne({
+      where: { email },
+    });
+  }
+  
 }

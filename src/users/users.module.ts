@@ -1,16 +1,17 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { userinter } from "./entities/user.entity";
+
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
 import { MailerModule } from "@nestjs-modules/mailer";
 import { mailerConfig } from "./mailer.config";
 import { JwtModule } from "@nestjs/jwt";
 import { jwtConstants } from "./constants/jwt.constants";
+import { User } from "./entities/user.entity";
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([userinter]),
+    TypeOrmModule.forFeature([User]),
     MailerModule.forRoot(mailerConfig),
     JwtModule.register({
       global: true,

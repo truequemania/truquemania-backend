@@ -20,7 +20,7 @@ import 'dotenv/config';
       database: process.env.DB_DATABASE,
       connectTimeout: 60000,
       entities: [join(__dirname + '/**/*.entity{.ts,.js}')],
-      synchronize: false,
+      synchronize: true,
       ssl: { rejectUnauthorized: false },
     }),
     UsersModule,
