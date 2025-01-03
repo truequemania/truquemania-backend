@@ -40,3 +40,24 @@ CREATE TABLE favoritosinter (
     FOREIGN KEY (user_id) REFERENCES userinter(id) ON DELETE CASCADE,
     FOREIGN KEY (articulo_id) REFERENCES articulosinter(id) ON DELETE CASCADE
 );
+
+CREATE TABLE chats (
+    id INT NOT NULL AUTO_INCREMENT,
+    user_one_id INT NOT NULL,
+    user_two_id INT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_one_id) REFERENCES userinter(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_two_id) REFERENCES userinter(id) ON DELETE CASCADE
+);
+
+CREATE TABLE messages (
+    id INT NOT NULL AUTO_INCREMENT,
+    chat_id INT NOT NULL,
+    sender_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE,
+    FOREIGN KEY (sender_id) REFERENCES userinter(id) ON DELETE CASCADE
+);
